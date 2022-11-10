@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class PlayerControllerX : MonoBehaviour
 {
-    private float speed = 15.0f;
-    private float rotationSpeed = 100.0f;
-    private float verticalInput;
+    public float speed;
+    private float rollSpeed = 100.0f;
+    private float pitchSpeed = 100.0f;
+    private float rudderSpeed = 25.0f;
+    public float verticalInput;
+    public float horizontalInput;
+    public float rollInput;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +22,7 @@ public class PlayerControllerX : MonoBehaviour
     void FixedUpdate()
     {
         // get the user's vertical input
-        verticalInput = Input.GetAxis("Vertical");
+        verticalInput = Input.GetAxis("Plane Pitch");
 
         // move the plane forward at a constant rate
         // The plane is going backward solution: Vector3.back to Vector3.forward
@@ -27,6 +31,20 @@ public class PlayerControllerX : MonoBehaviour
 
         // tilt the plane up/down based on up/down arrow keys
         // The plane is tilting automatically solution: add "* verticalInput"
-        transform.Rotate(Vector3.right * rotationSpeed * Time.deltaTime * verticalInput);
+        transform.Rotate(Vector3.right * pitchSpeed * Time.deltaTime * verticalInput);
+
+        // Modifications:
+        horizontalInput = Input.GetAxis("Plane Rudder");
+        rollInput = Input.GetAxis("Plane Roll");
+
+        // rotate the plane left/right on q/e keys
+        transform.Rotate(Vector3.up * rudderSpeed * Time.deltaTime * horizontalInput);
+
+        // tilt the plane left/right on a/d keys
+        transform.Rotate(Vector3.back * rollSpeed * Time.deltaTime * rollInput);
+
+
+
+
     }
 }
